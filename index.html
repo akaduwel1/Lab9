@@ -55,6 +55,14 @@
     <button>Trigger a Global Error</button>
   </section>
 
+
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "3b68c85f11854f6da11c1e1e9057da9f"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
   <script>
     let calculateBtn = document.querySelector('#calculate');
     calculateBtn.addEventListener('click', () => {
@@ -66,7 +74,90 @@
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
-    // TODO - Make buttons functional
+    
+    // STEP 2
+    let consoleLogDemo = errorBtns[0];
+    consoleLogDemo.onclick = function (){
+      console.log('Console Log Demo');
+    }
+
+    let consoleErrorDemo = errorBtns[1];
+    consoleErrorDemo.onclick = function (){
+      console.error('Console Error Demo');
+    }
+
+    let consoleDir = errorBtns[2];
+    consoleDir.onclick = function (){
+      console.dir(consoleDir);
+    }
+
+    let consoleDirXML = errorBtns[3];
+    consoleDirXML.onclick = function (){
+      console.dirxml(document.body);
+    }
+
+    let consoleGroupStart = errorBtns[4];
+    consoleGroupStart.onclick = function (){
+      console.group("Group");
+    }
+ 
+    let consoleGroupEnd = errorBtns[5];
+    consoleGroupEnd.onclick = function (){
+      console.groupEnd("Group");
+    }
+
+    let consoleTable = errorBtns[6];
+    consoleTable.onclick = function (){
+      console.table(errorBtns);
+    }
+    
+    let consoleStartTimer = errorBtns[7];
+    consoleStartTimer.onclick = function (){
+      console.time("Timer");
+    }
+
+    let consoleEndTimer = errorBtns[8];
+    consoleEndTimer.onclick = function (){
+      console.timeEnd("Timer");
+    }
+
+    let consoleTrace = errorBtns[9];
+    consoleTrace.onclick = function (){
+      console.trace();
+    }
+
+    let consoleGlobalError = errorBtns[10];
+    consoleGlobalError.onclick = function (){
+      console.log(yes);
+    }
+
+    window.onerror = function (){
+      console.log("There has been an error");
+      TrackJS.track("Part 5!");
+    }
+
+// STEP 3
+    try {
+      errorFunction1();
+    } catch{
+      alert("Function errorFunction1 is not defined");
+    }
+
+//STEP 4
+    //Custom Error Class
+    class doesNotExistError extends Error {
+      constructor(message) {
+        super(message); // (1)
+        this.name = "DoesNotExistError"; // (2)
+      }
+
+    }
+    try {
+      errorFunction2();
+    } catch (err){
+      throw new doesNotExistError("Could Not Find Function: " + err.message);
+    }
+
   </script>
 </body>
 </html>
